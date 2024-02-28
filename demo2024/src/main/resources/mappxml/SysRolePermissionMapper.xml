@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.demo2024.mapper.SysRolePermissionMapper">
+
+<!--    <select id="getParentIdByPermissionIds" resultType="java.lang.String">-->
+<!--        SELECT DISTINCT parent_id FROM sys_permission WHERE id IN-->
+<!--        <foreach collection="permissionIds" item="permissionId" open="(" separator="," close=")">-->
+<!--            #{permissionId}-->
+<!--        </foreach>-->
+<!--    </select>-->
+
+<!--    <select id="getPermissionIdByRoleId" resultType="java.lang.String">-->
+<!--        SELECT permission_id-->
+<!--        FROM sys_role_permission-->
+<!--        WHERE role_id = #{roleId} AND (SELECT count(id) FROM sys_permission WHERE parent_id = permission_id) =0-->
+
+<!--    </select>-->
+</mapper>

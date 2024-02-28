@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.demo2024.mapper.SysPermissionMapper">
+<!--    <sql id="field_list">-->
+<!--        p.id,-->
+<!--        p.parent_id,-->
+<!--        p.path,-->
+<!--        p.name,-->
+<!--        p.title,-->
+<!--        p.icon,-->
+<!--        p.show_link,-->
+<!--        p.rank,-->
+<!--        p.component,-->
+<!--        p.show_parent,-->
+<!--        p.keep_alive,-->
+<!--        p.is_frame,-->
+<!--        p.menu_type,-->
+<!--        p.perms,-->
+<!--        p.is_enable,-->
+<!--        p.created,-->
+<!--        p.created_by,-->
+<!--        p.modified,-->
+<!--        p.modified_by-->
+<!--    </sql>-->
+<!--    <select id="allPermissionIds" resultType="java.lang.String">-->
+<!--        SELECT a.id-->
+<!--        FROM sys_permission a-->
+<!--    </select>-->
+<!--    &lt;!&ndash;查询菜单根据ID&ndash;&gt;-->
+<!--    <select id="listMenuByIds"-->
+<!--            resultType="org.example.demo2024.entity.SysPermission">-->
+<!--        SELECT-->
+<!--        <include refid="field_list"/>-->
+<!--        FROM sys_permission p-->
+<!--        WHERE p.menu_type in (0,1)-->
+<!--        <choose>-->
+<!--            <when test="is_enabled != null and is_enabled">-->
+<!--                AND p.is_enable = 1-->
+<!--            </when>-->
+<!--            <when test="is_enabled != null and !is_enabled">-->
+<!--                AND p.is_enable = 0-->
+<!--            </when>-->
+<!--        </choose>-->
+<!--        <if test="ids != null and ids.size >0">-->
+<!--            AND p.id in-->
+<!--            <foreach collection="ids" item="item" index="index" separator="," open="(" close=")">-->
+<!--                ${item}-->
+<!--            </foreach>-->
+<!--        </if>-->
+<!--        order by rank-->
+<!--    </select>-->
+<!--    &lt;!&ndash;查询权限&ndash;&gt;-->
+<!--    <select id="listPermission"-->
+<!--            resultType="org.example.demo2024.entity.SysPermission">-->
+<!--        SELECT-->
+<!--        <include refid="field_list"/>-->
+<!--        FROM sys_permission p-->
+<!--        WHERE p.menu_type=2-->
+<!--        <if test="ids != null and ids.size > 0">-->
+<!--            AND p.id in-->
+<!--            <foreach collection="ids" item="item" index="index" separator="," open="(" close=")">-->
+<!--                ${item}-->
+<!--            </foreach>-->
+<!--        </if>-->
+<!--        <choose>-->
+<!--            <when test="is_enabled != null and is_enabled">-->
+<!--                AND p.is_enable = 1-->
+<!--            </when>-->
+<!--            <when test="is_enabled != null and !is_enabled">-->
+<!--                AND p.is_enable = 0-->
+<!--            </when>-->
+<!--        </choose>-->
+<!--    </select>-->
+<!--    &lt;!&ndash;根据角色ID查询菜单与权限&ndash;&gt;-->
+<!--    <select id="listByRoleIds"-->
+<!--            resultType="org.example.demo2024.entity.SysPermission">-->
+<!--        SELECT-->
+<!--        <include refid="field_list"/>-->
+<!--        FROM sys_permission p,sys_role_permission t-->
+<!--        WHERE t.permission_id = p.id-->
+<!--        AND t.role_id in-->
+<!--        <foreach collection="roleIds" item="item" separator="," open="(" close=")">-->
+<!--            ${item}-->
+<!--        </foreach>-->
+<!--        <choose>-->
+<!--            <when test="is_enabled != null and is_enabled">-->
+<!--                AND p.is_enable = 1-->
+<!--            </when>-->
+<!--            <when test="is_enabled != null and !is_enabled">-->
+<!--                AND p.is_enable = 0-->
+<!--            </when>-->
+<!--        </choose>-->
+<!--    </select>-->
+<!--    &lt;!&ndash;菜单与权限&ndash;&gt;-->
+<!--    <select id="list" resultType="org.example.demo2024.entity.SysPermission">-->
+<!--        SELECT-->
+<!--        <include refid="field_list"/>-->
+<!--        FROM sys_permission p-->
+<!--        WHERE 1=1-->
+<!--        <choose>-->
+<!--            <when test="is_enabled != null and is_enabled">-->
+<!--                AND p.is_enable = 1-->
+<!--            </when>-->
+<!--            <when test="is_enabled != null and !is_enabled">-->
+<!--                AND p.is_enable = 0-->
+<!--            </when>-->
+<!--        </choose>-->
+<!--    </select>-->
+</mapper>
