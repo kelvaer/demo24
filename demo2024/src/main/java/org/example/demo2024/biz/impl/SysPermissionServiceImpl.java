@@ -1,5 +1,7 @@
 package org.example.demo2024.biz.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import org.example.demo2024.biz.ISysPermissionService;
 import org.example.demo2024.dto.PermissionTree;
@@ -9,8 +11,11 @@ import org.example.demo2024.vo.VueMenuRouteVO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @program: demo2024
@@ -56,6 +61,29 @@ public class SysPermissionServiceImpl
 
     @Override
     public List<PermissionTree> buildTree(@Nonnull List<SysPermission> permissions) {
-        return null;
+
+        List<PermissionTree> permissionTrees = BeanUtil.copyToList(permissions, PermissionTree.class);
+        List<PermissionTree> trees = new ArrayList<>();
+        Set<String> ids = new HashSet<>();
+        for (PermissionTree permissionTree : permissionTrees) {
+            if (StrUtil.isBlank(permissionTree.getParentId())) {
+                trees.add(permissionTree);
+            }
+            for (PermissionTree tree : permissionTrees) {
+                if (permissionTree.getId().equals(tree.getParentId())) {
+                    if (permissionTree.getChildren() == null) {
+                        permissionTree.setChildren(new ArrayList<>());
+                    }
+                    permissionTree.getChildren().add(tree);
+
+                    ids.add(tree.getId());
+                }
+            }
+        }
+        if (trees.size() == 0) {
+            trees = permissionTrees.stream().filter(s -> !ids.contains(s.getId())).collect(Collectors.toList());
+        }
+        return trees;
+
     }
 }

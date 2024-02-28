@@ -41,6 +41,13 @@ public class RoleVO {
     private String roleCode;
     private String description;
 
+    /**
+     * 是否启用（1，启用，2禁用）
+     */
     private Integer enabled;
+
+    /**
+     * 总部标识：1是，0：否
+     */
     private Integer isSystem;
 }

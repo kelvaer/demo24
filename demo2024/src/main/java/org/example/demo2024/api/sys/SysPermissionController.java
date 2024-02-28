@@ -1,6 +1,7 @@
 package org.example.demo2024.api.sys;
 
 import cn.hutool.core.collection.CollUtil;
+import org.example.demo2024.biz.ISysPermissionService;
 import org.example.demo2024.entity.SysRolePermission;
 import org.example.demo2024.entity.table.SysRolePermissionTableDef;
 import org.example.demo2024.enums.MenuTypeEnums;
@@ -25,6 +26,7 @@ import org.example.demo2024.mapper.SysUserMapper;
 import org.example.demo2024.query.PermissionTreeQuery;
 import org.example.demo2024.vo.VueMenuRouteMeta;
 import org.example.demo2024.vo.VueMenuRouteVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -56,6 +59,9 @@ public class SysPermissionController {
     @Resource
     private SysRolePermissionMapper sysRolePermissionMapper;
 
+    @Autowired
+    private ISysPermissionService iSysPermissionService;
+
     @GetMapping("/tree")
     public ResultBody<List<PermissionTree>> getMenuTree(PermissionTreeQuery req) {
 
@@ -67,11 +73,34 @@ public class SysPermissionController {
                 .where(SysPermissionTableDef.SYS_PERMISSION.ENABLED.eq(req.getEnabled())
                         .when(req.getEnabled() != null))
                 .orderBy(SysPermissionTableDef.SYS_PERMISSION.RANK, true);
-        List<SysPermission> sysPermissions = sysPermissionMapper.selectListByQuery(query);
+        List<SysPermission> permissionOpt = sysPermissionMapper.selectListByQuery(query);
 
+        List<PermissionTree> permissionTrees = iSysPermissionService.buildTree(permissionOpt);
 
-        return null;
+        return ResultBody.success(permissionTrees);
     }
+
+
+
+    //sys/permission/tree/menu
+    @GetMapping("/tree/menu")
+    public ResultBody<List<PermissionTree>>  tressMenus(PermissionTreeQuery req){
+        QueryWrapper query = QueryWrapper.create()
+                .select(SysPermissionTableDef.SYS_PERMISSION.ALL_COLUMNS)
+                .from(SysPermissionTableDef.SYS_PERMISSION)
+                .where(SysPermissionTableDef.SYS_PERMISSION.MENU_TYPE.ne(MenuTypeEnums.permission.getValue()))
+                .where(SysPermissionTableDef.SYS_PERMISSION.TITLE.like(req.getTitle())
+                        .when(StrUtil.isNotBlank(req.getTitle())))
+                .where(SysPermissionTableDef.SYS_PERMISSION.ENABLED.eq(req.getEnabled())
+                        .when(req.getEnabled() != null))
+                .orderBy(SysPermissionTableDef.SYS_PERMISSION.RANK, true);
+        List<SysPermission> permissionOpt = sysPermissionMapper.selectListByQuery(query);
+        List<PermissionTree> permissionTrees = iSysPermissionService.buildTree(permissionOpt);
+        return ResultBody.success(permissionTrees);
+    }
+
+
+
 
 
     /**

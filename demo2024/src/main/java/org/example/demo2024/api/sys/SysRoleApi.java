@@ -1,6 +1,7 @@
 package org.example.demo2024.api.sys;
 
 import cn.hutool.core.util.StrUtil;
+import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -9,8 +10,11 @@ import org.example.demo2024.convert.RoleConverter;
 import org.example.demo2024.entity.Role;
 import org.example.demo2024.entity.table.RoleTableDef;
 import org.example.demo2024.mapper.RoleMapper;
+import org.example.demo2024.query.RolePageQueryReq;
 import org.example.demo2024.query.RoleQueryReq;
+import org.example.demo2024.vo.BasePage;
 import org.example.demo2024.vo.RoleVO;
+import org.example.demo2024.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,6 +56,27 @@ public class SysRoleApi {
     }
 
 
+
+
+    // sys/role/query/page
+
+    @GetMapping("/sys/role/query/page")
+    public ResultBody<BasePage<RoleVO>>  findRolePage(RolePageQueryReq req){
+
+        QueryWrapper query = QueryWrapper.create()
+                .select(RoleTableDef.ROLE.ALL_COLUMNS)
+                .from(RoleTableDef.ROLE)
+                .where(RoleTableDef.ROLE.ROLE_CODE.eq(req.getRoleCode())
+                        .when(StrUtil.isNotBlank(req.getRoleCode())))
+                .where(RoleTableDef.ROLE.ENABLED.eq(req.getEnabled())
+                        .when(req.getEnabled() != null))
+                .where(RoleTableDef.ROLE.NAME.like(req.getRoleName())
+                        .when(StrUtil.isNotBlank(req.getRoleName())));
+        Page<Role> paginate = roleMapper.paginate(req.getCurrent(), req.getSize(), query);
+        List<Role> records = paginate.getRecords();
+        List<RoleVO> roleVOS = roleConverter.entityList2VoList(records);
+        return ResultBody.success(new BasePage<RoleVO>(req.getCurrent(), req.getSize(), paginate.getTotalRow(), roleVOS));
+    }
 
 
 
