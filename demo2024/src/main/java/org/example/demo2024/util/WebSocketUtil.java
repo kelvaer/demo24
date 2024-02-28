@@ -8,6 +8,7 @@ package org.example.demo2024.util;
  */
 
 import cn.hutool.core.collection.ListUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.setting.dialect.Props;
 import lombok.extern.slf4j.Slf4j;
 import org.example.demo2024.biz.ITopicHandleStrategy;
@@ -29,10 +30,10 @@ public class WebSocketUtil extends WebSocketServer {
 
     private static List<WebSocket> clients = new CopyOnWriteArrayList<>();
 
-    private static final Props props = new Props("application.properties");
 
+    private static  InetSocketAddress inet = new InetSocketAddress(Integer.valueOf(SpringUtil.getProperty("wskt.port")));
     private WebSocketUtil() {
-        super(new InetSocketAddress(Integer.valueOf(props.getProperty("wskt.port"))));
+        super(inet);
     }
 
     private static final WebSocketUtil wskt = new WebSocketUtil();
