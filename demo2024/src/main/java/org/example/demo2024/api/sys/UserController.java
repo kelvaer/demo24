@@ -8,6 +8,7 @@ import com.mybatisflex.core.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.common.recycler.Recycler;
 import org.example.demo2024.anno.CommonLog;
 import org.example.demo2024.cfg.ResultBody;
 import org.example.demo2024.convert.UserConverter;
@@ -32,6 +33,7 @@ import org.example.demo2024.vo.RestPasswdVO;
 import org.example.demo2024.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -130,6 +132,22 @@ public class UserController {
     }
 
 
+    // sys/user/delete
+    @DeleteMapping("/sys/user/delete")
+    public ResultBody<Void>  deleteByIds(@RequestBody List<String> ids){
+        if (CollUtil.isEmpty(ids)){
+            return ResultBody.error("删除失败，缺少参数");
+        }
+
+        sysUserMapper.deleteBatchByIds(ids);
+
+        QueryWrapper where = QueryWrapper.create()
+                .from(SysUserRoleTableDef.SYS_USER_ROLE)
+                .where(SysUserRoleTableDef.SYS_USER_ROLE.USER_ID.in(ids));
+        sysUserRoleMapper.deleteByQuery(where);
+
+        return ResultBody.success();
+    }
 
 
 
