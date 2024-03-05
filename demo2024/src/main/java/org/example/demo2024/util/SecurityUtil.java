@@ -17,4 +17,15 @@ public class SecurityUtil {
         }
         return userName;
     }
+
+
+
+    public static String getCurrentUserId(){
+        String userId = "未知";
+        if (StpUtil.isLogin()) {
+            userId = StpUtil.getExtra("user_id").toString();
+        }
+        return userId;
+    }
+
 }

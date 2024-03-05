@@ -1,6 +1,7 @@
 package org.example.demo2024.api.sys;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.mybatisflex.core.paginate.Page;
@@ -21,8 +22,11 @@ import org.example.demo2024.vo.OrganizationTree;
 import org.example.demo2024.vo.OrganizationVO;
 import org.example.demo2024.vo.RoleVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -204,5 +208,37 @@ public class SysOrgApi {
 
 
     //sys/org/update/29208416195000163
+    @PutMapping("/sys/org/update/{id}")
+    public ResultBody<OrganizationVO> updateOrg(@PathVariable("id") String id, @RequestBody OrganizationVO vo){
+
+        SysOrg sysOrgDb = sysOrgMapper.selectOneById(id);
+        vo.setModifiedBy(SecurityUtil.getCurrentUserName());
+        vo.setModified(LocalDateTime.now());
+        BeanUtil.copyProperties(vo, sysOrgDb, "id", "code", "path", "isSystem");
+        sysOrgMapper.update(sysOrgDb);
+
+        return ResultBody.success(vo);
+
+    }
+
+
+    //sys/org/del
+
+    @DeleteMapping("/sys/org/del")
+    public ResultBody<Void> delByIds(@RequestBody List<String> ids){
+        if (CollUtil.isEmpty(ids)){
+            return ResultBody.error("参数ids为空");
+        }
+        List<SysOrg> sysOrgs = sysOrgMapper.selectListByIds(ids);
+        if (CollUtil.isEmpty(sysOrgs)){
+            return ResultBody.error("机构不存在");
+        }
+        if (sysOrgs.stream().anyMatch(e -> e.getIsSystem() == 1)) {
+            return ResultBody.error("系统机构不允许删除");
+        }
+        sysOrgMapper.deleteBatchByIds(ids);
+        return ResultBody.success();
+    }
+
 
 }

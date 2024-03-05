@@ -71,7 +71,7 @@ public class DevLogUtil {
             devLog.setParamJson(CommonServletUtil.getArgsJsonString(joinPoint));
             devLog.setOpTime(DateTime.now());
             devLog.setOpUser(userName);
-            creatLogSignValue(devLog);
+//            creatLogSignValue(devLog);
             devLogService.save(devLog);
         });
     }
