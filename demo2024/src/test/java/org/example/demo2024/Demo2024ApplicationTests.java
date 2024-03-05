@@ -1,6 +1,7 @@
 package org.example.demo2024;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.ReUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.anwen.mongo.mapper.MongoPlusMapMapper;
 import com.mybatisflex.core.query.QueryWrapper;
@@ -34,12 +35,60 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @SpringBootTest
 class Demo2024ApplicationTests {
+
+    @Test
+    void test301(){
+        //330600300000
+
+        String a = "330600300000";
+        String substring = a.substring(0, 6);
+        System.err.println(substring);
+
+        String content = "ZZZaaabbbccc中文1234";
+
+
+        // 身份证号码的正则表达式
+        String regex = "\\d{17}[\\dXx]";
+        // 待匹配的文本
+        String text = "张三110111201109288919李四130205199011141101王五140107200111252313, 210921196303108818。";
+
+        // 创建Pattern对象
+        Pattern pattern = Pattern.compile(regex);
+        // 创建Matcher对象
+        Matcher matcher = pattern.matcher(text);
+
+        // 查找所有匹配的身份证号码
+        while (matcher.find()) {
+            // 输出匹配到的身份证号码
+            System.out.println("找到身份证号码: " + matcher.group());
+        }
+
+
+        ArrayList<String> all = ReUtil.findAll(regex, text, 0, new ArrayList<String>());
+        System.err.println(all);
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
     @Autowired
     private ISysPermissionService iSysPermissionService;
 

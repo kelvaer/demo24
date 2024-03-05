@@ -6,6 +6,7 @@ import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.ZipUtil;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.example.demo2024.cfg.ResultBody;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,7 @@ import java.nio.charset.StandardCharsets;
  * @create: 2024/02/05
  */
 @Slf4j
+@Api(tags = "日志类API")
 @RestController
 public class SysLogApi {
 

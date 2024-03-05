@@ -1,22 +1,33 @@
 package org.example.demo2024.api.sys;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.example.demo2024.cfg.ResultBody;
+import org.example.demo2024.convert.OrgConverter;
 import org.example.demo2024.entity.SysOrg;
 import org.example.demo2024.entity.table.SysOrgTableDef;
 import org.example.demo2024.mapper.SysOrgMapper;
 import org.example.demo2024.query.OrgListQueryReq;
+import org.example.demo2024.query.OrgPageReq;
 import org.example.demo2024.query.OrgTreeQueryReq;
+import org.example.demo2024.util.SecurityUtil;
+import org.example.demo2024.vo.BasePage;
 import org.example.demo2024.vo.OrganizationTree;
 import org.example.demo2024.vo.OrganizationVO;
+import org.example.demo2024.vo.RoleVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -39,6 +50,8 @@ public class SysOrgApi {
 
     @Resource
     private SysOrgMapper sysOrgMapper;
+    @Autowired
+    private OrgConverter orgConverter;
 
     public List<OrganizationTree> buildTree(List<OrganizationVO> listData) {
         List<OrganizationTree> treeList = BeanUtil.copyToList(listData, OrganizationTree.class);
@@ -129,5 +142,67 @@ public class SysOrgApi {
 
 
 
+    ///sys/org/query/page?current=1&size=10
+    @GetMapping("/sys/org/query/page")
+    public ResultBody<BasePage<OrganizationVO>>  findOrgPage(OrgPageReq req){
+
+        QueryWrapper query = QueryWrapper.create()
+                .select("t.*")
+                .select(column("p.code").as(OrganizationVO::getParentCode))
+                .select(column("p.name").as(OrganizationVO::getParentName))
+                .from(SYS_ORG.as("t"))
+                .leftJoin(SYS_ORG).as("p")
+                .on("t.parent_id = p.id")
+                .where(column("t.is_enable")
+                        .eq(req.getIsEnable())
+                        .when(req.getIsEnable() != null))
+                .where(column("t.parent_id")
+                        .eq(req.getParentId())
+                        .when(StrUtil.isNotBlank(req.getParentId())))
+                .where(column("t.name")
+                        .like(req.getName())
+                        .when(StrUtil.isNotBlank(req.getName())))
+                .where(column("t.code")
+                        .eq(req.getCode())
+                        .when(StrUtil.isNotBlank(req.getCode())));
+        Page<OrganizationVO> paginate = sysOrgMapper.paginateAs(req.getCurrent(), req.getSize(), query,OrganizationVO.class);
+        return ResultBody.success(new BasePage<OrganizationVO>(req.getCurrent(), req.getSize(), paginate.getTotalRow(), paginate.getRecords()));
+
+    }
+
+
+    //sys/org/save
+    @PostMapping("/sys/org/save")
+    public ResultBody<OrganizationVO> saveNewOrg(@RequestBody OrganizationVO vo){
+
+        String parentId = vo.getParentId();
+        if (StrUtil.isBlank(parentId)){
+            return ResultBody.error("不允许添加根节点");
+        }
+        vo.setCreatedBy(SecurityUtil.getCurrentUserName());
+        vo.setCreated(LocalDateTime.now());
+        vo.setIsSystem(0);
+
+        SysOrg parentOrg = sysOrgMapper.selectOneById(parentId);
+        if (parentOrg==null) {
+            return ResultBody.error("父机构不存在");
+        }
+        String snowflakeNextId = IdUtil.getSnowflakeNextIdStr();
+        vo.setCode(snowflakeNextId);
+
+        SysOrg ins = orgConverter.vo2entity(vo);
+        sysOrgMapper.insert(ins);
+        String id = ins.getId();
+        // 机构path = 上级网点path+本级ID
+        ins.setPath(parentOrg.getPath()+","+id);
+        sysOrgMapper.update(ins);
+
+        vo.setId(ins.getId());
+        vo.setPath(ins.getPath());
+        return ResultBody.success(vo);
+    }
+
+
+    //sys/org/update/29208416195000163
 
 }

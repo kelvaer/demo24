@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class DevLogUtil {
 
-    private static final Props props = new Props("application.properties");
+//    private static final Props props = new Props("application.properties");
 
 
     private static final IDevLogService devLogService = SpringUtil.getBean(IDevLogService.class);
@@ -45,7 +45,7 @@ public class DevLogUtil {
             devLog.setResultJson(resultJson);
             devLog.setOpTime(DateTime.now());
             devLog.setOpUser(userName);
-            creatLogSignValue(devLog);
+//            creatLogSignValue(devLog);
             devLogService.save(devLog);
         });
     }
@@ -81,7 +81,8 @@ public class DevLogUtil {
      */
     private static void creatLogSignValue (DevLog devLog) {
         String logStr = devLog.toString().replaceAll(" +","");
-        String publicKey = props.getProperty("sm2.public-key");
+//        String publicKey = props.getProperty("sm2.public-key");
+        String publicKey = SpringUtil.getProperty("sm2.public-key");
 
         String encryptData = Sm2.doEncrypt(logStr, publicKey); // 加密结果
 
