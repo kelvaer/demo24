@@ -31,6 +31,11 @@ class NeoTest {
 
     @Test
     void testSelectRel(){
+        Collection<NeoNode> people = session.loadAll(NeoNode.class);
+        for (NeoNode person : people) {
+            log.info("p:{}", person.toString());
+        }
+
         Collection<NeoRelation> neoRelations = session.loadAll(NeoRelation.class);
         for (NeoRelation r : neoRelations) {
             log.info("r:{}", r.toString());
@@ -40,15 +45,12 @@ class NeoTest {
 
     @Test
     void testSelectNode() {
-        Collection<NeoNode> people = session.loadAll(NeoNode.class);
-        for (NeoNode person : people) {
-            log.info("p:{}", person.toString());
-        }
 
 
-        NeoNode load1 = session.load(NeoNode.class, 1L);
+
+        NeoNode load1 = session.load(NeoNode.class, 1206L);
         System.err.println(load1);
-        NeoNode load2 = session.load(NeoNode.class, 2L);
+        NeoNode load2 = session.load(NeoNode.class, 1207L);
         System.err.println(load2);
 
         NeoRelation r1 = new NeoRelation();

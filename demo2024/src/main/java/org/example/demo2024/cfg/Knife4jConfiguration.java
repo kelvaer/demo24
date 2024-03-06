@@ -38,7 +38,7 @@ public class Knife4jConfiguration {
 
     @Bean
     public Docket createRestApi() {
-        return new Docket(DocumentationType.OAS_30)
+        return new Docket(DocumentationType.SWAGGER_2)
                 .enable(true)
                 .groupName("系统模块")
                 .useDefaultResponseMessages(false)

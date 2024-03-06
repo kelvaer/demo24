@@ -1,14 +1,23 @@
 package org.example.demo2024.api;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.dromara.x.file.storage.core.FileInfo;
 import org.dromara.x.file.storage.core.FileStorageService;
+import org.example.demo2024.cfg.ResultBody;
+import org.example.demo2024.dto.SysFileUploadDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @program: demo2024
@@ -16,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author: 作者名
  * @create: 2024/02/04
  */
+@Slf4j
 @RestController
 public class FileDetailController {
 
@@ -27,8 +37,57 @@ public class FileDetailController {
      */
     @PostMapping("/upload")
     public FileInfo upload(@RequestPart MultipartFile file) {
+        String name = file.getName();
+        log.info("name:{}",name);
+        String contentType = file.getContentType();
+        log.info("contentType:{}",contentType);
+        String originalFilename = file.getOriginalFilename();
+        log.info("originalFilename:{}",originalFilename);
         return fileStorageService.of(file).upload();
     }
+
+    @PostMapping("/upload3")
+    public FileInfo upload3(@RequestPart MultipartFile file , @RequestParam String ext){
+
+        String originalFilename = file.getOriginalFilename();
+        log.info("originalFilename:{}",originalFilename);
+        String mf = originalFilename+"."+ ext;
+        log.info("mf:{}",mf);
+        return fileStorageService.of(file)
+                .putAttr("mf",mf)
+                .upload();
+    }
+
+
+    @ApiOperation(value = "批量签名文件导入")
+    @ApiImplicitParam(name ="files",required = true,dataType="MultipartFile",allowMultiple = true,paramType = "query")
+    @PostMapping(value = "/uploadBatch")
+    public ResultBody<List<FileInfo>>uploadBatch(@RequestParam(value = "files") MultipartFile[] files) {
+        if (files==null || files.length==0){
+            return ResultBody.error("files不能为空");
+        }
+        List<FileInfo> res = new ArrayList<>();
+        for (MultipartFile file : files) {
+            String name = file.getName();
+            log.info("name:{}",name);
+            String contentType = file.getContentType();
+            log.info("contentType:{}",contentType);
+            String originalFilename = file.getOriginalFilename();
+            log.info("originalFilename:{}",originalFilename);
+            FileInfo upload = fileStorageService.of(file).upload();
+            res.add(upload);
+        }
+        return ResultBody.success(res);
+    }
+
+
+
+
+
+
+
+
+
 
     /**
      * 上传文件，成功返回文件 url

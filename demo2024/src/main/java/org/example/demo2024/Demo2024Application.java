@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jAutoConfiguration;
 
 @EnableAsync
 @MapperScan("org.example.demo2024.mapper")
@@ -20,7 +21,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EsMapperScan("org.example.demo2024.es.mapping")
 @EnableFileStorage
 @EnableSpringUtil
-@SpringBootApplication
+@SpringBootApplication(exclude = {Neo4jAutoConfiguration.class})
 public class Demo2024Application {
 
     public static void main(String[] args){
