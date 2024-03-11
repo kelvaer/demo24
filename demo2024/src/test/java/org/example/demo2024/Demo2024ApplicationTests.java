@@ -1,6 +1,8 @@
 package org.example.demo2024;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.IdcardUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.anwen.mongo.mapper.MongoPlusMapMapper;
@@ -49,8 +51,8 @@ class Demo2024ApplicationTests {
     void test301(){
         //330600300000
 
-        String a = "330600300000";
-        String substring = a.substring(0, 6);
+        String a = "330601000000";
+        String substring = a.substring(5, 6);
         System.err.println(substring);
 
         String content = "ZZZaaabbbccc中文1234";
@@ -76,6 +78,12 @@ class Demo2024ApplicationTests {
         ArrayList<String> all = ReUtil.findAll(regex, text, 0, new ArrayList<String>());
         System.err.println(all);
 
+
+        boolean validCard = IdcardUtil.isValidCard("130428200011107625");
+        System.err.println(validCard);
+
+        Long item = Long.valueOf("330600120000".substring(6, 8));
+        System.err.println(item);
 
     }
 

@@ -8,6 +8,7 @@ import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
+import org.example.demo2024.cache.SysOrgCache;
 import org.example.demo2024.cfg.ResultBody;
 import org.example.demo2024.convert.OrgConverter;
 import org.example.demo2024.entity.SysOrg;
@@ -52,6 +53,8 @@ import static org.example.demo2024.entity.table.SysOrgTableDef.SYS_ORG;
 @RestController
 public class SysOrgApi {
 
+    @Autowired
+    private SysOrgCache orgCache;
     @Resource
     private SysOrgMapper sysOrgMapper;
     @Autowired
@@ -187,7 +190,7 @@ public class SysOrgApi {
         vo.setCreated(LocalDateTime.now());
         vo.setIsSystem(0);
 
-        SysOrg parentOrg = sysOrgMapper.selectOneById(parentId);
+        SysOrg parentOrg = orgCache.getById(parentId);
         if (parentOrg==null) {
             return ResultBody.error("父机构不存在");
         }
@@ -211,7 +214,7 @@ public class SysOrgApi {
     @PutMapping("/sys/org/update/{id}")
     public ResultBody<OrganizationVO> updateOrg(@PathVariable("id") String id, @RequestBody OrganizationVO vo){
 
-        SysOrg sysOrgDb = sysOrgMapper.selectOneById(id);
+        SysOrg sysOrgDb = orgCache.getById(id);
         vo.setModifiedBy(SecurityUtil.getCurrentUserName());
         vo.setModified(LocalDateTime.now());
         BeanUtil.copyProperties(vo, sysOrgDb, "id", "code", "path", "isSystem");

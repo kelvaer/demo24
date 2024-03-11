@@ -10,11 +10,13 @@ import org.dromara.x.file.storage.spring.EnableFileStorage;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.boot.autoconfigure.neo4j.Neo4jAutoConfiguration;
 
+@EnableCaching
 @EnableAsync
 @MapperScan("org.example.demo2024.mapper")
 @Slf4j

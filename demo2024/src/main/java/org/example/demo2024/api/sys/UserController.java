@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.common.recycler.Recycler;
 import org.example.demo2024.anno.CommonLog;
+import org.example.demo2024.cache.SysOrgCache;
 import org.example.demo2024.cfg.ResultBody;
 import org.example.demo2024.convert.UserConverter;
 import org.example.demo2024.dto.LoginReq;
@@ -59,6 +60,9 @@ import java.util.stream.Collectors;
 @RestController
 public class UserController {
 
+    @Autowired
+    private SysOrgCache orgCache;
+
     @GetMapping("/i18n")
     public String i18n(HttpServletRequest request) {
         String message1 = I18nUtil.getMessage("A00001", request.getHeader("lang"));
@@ -105,7 +109,7 @@ public class UserController {
         newResList = userConverter.sysUsers2UserVos(records);
         for (UserVO userVO : newResList) {
             if (StrUtil.isNotBlank(userVO.getOrgId())) {
-                SysOrg sysOrg = sysOrgMapper.selectOneById(userVO.getOrgId());
+                SysOrg sysOrg = orgCache.getById(userVO.getOrgId());
                 if (sysOrg != null) {
                     userVO.setOrgCode(sysOrg.getCode());
                     userVO.setOrgName(sysOrg.getName());
