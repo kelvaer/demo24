@@ -3,7 +3,8 @@ package org.example.demo2024.anno;
 import java.lang.annotation.*;
 
 /**
- *  @RedisLimit(key = "testKey", limit = 5, timeout = 60)
+ *  @author oppor
+ * @RedisLimit(key = "testKey", limit = 5, timeout = 60)
  * 在使用`@RedisLimit`注解时，每个方法对应的key不应该相同，否则会出现相互干扰的情况
  */
 @Target(ElementType.METHOD)

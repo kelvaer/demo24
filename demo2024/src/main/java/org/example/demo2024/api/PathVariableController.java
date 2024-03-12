@@ -25,6 +25,7 @@ import org.example.demo2024.anno.RedisLimit;
 import org.example.demo2024.cfg.ResultBody;
 import org.example.demo2024.entity.SysUser;
 import org.example.demo2024.mapper.SysUserMapper;
+import org.example.demo2024.util.ExportCSVUtil;
 import org.example.demo2024.util.Ip2regionUtil;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +35,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -46,6 +49,25 @@ import javax.servlet.http.HttpServletRequest;
 public class PathVariableController {
     @Resource
     private SysUserMapper sysUserMapper;
+
+    @GetMapping( "/exportCsv")
+    @ApiOperation(value = "exportCsv")
+    public void getSkuList1(HttpServletResponse response){
+        List<Object[]> cellList = new ArrayList<>();
+        Object[] obj1 = {1,"小明",13};
+        Object[] obj2 = {2,"小强",14};
+        Object[] obj3 = {3,"小红",15};
+        cellList.add(obj1);
+        cellList.add(obj2);
+        cellList.add(obj3);
+
+        String[] tableHeaderArr = {"id","姓名","年龄"};
+        String fileName = "导出文件.csv";
+        byte[] bytes = ExportCSVUtil.writeCsvAfterToBytes(tableHeaderArr, cellList);
+        ExportCSVUtil.responseSetProperties(fileName,bytes, response);
+    }
+
+
 
     @GetMapping("/test")
     @CommonLog(value = "测试redisLimit")
