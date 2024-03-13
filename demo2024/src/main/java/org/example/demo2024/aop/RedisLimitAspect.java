@@ -6,7 +6,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.example.demo2024.anno.RedisLimit;
-import org.example.demo2024.util.Ip2regionUtil;
+import org.example.demo2024.util.IpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.core.RedisOperations;
@@ -43,7 +43,7 @@ public class RedisLimitAspect {
     public void before(JoinPoint joinPoint, RedisLimit redisLimit) throws Throwable {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
                 .getRequest();
-        String ip = Ip2regionUtil.getIp(request);
+        String ip = IpUtil.getIp(request);
         String key = redisLimit.key().equals("") ? ip : redisLimit.key();
         int limit = redisLimit.limit();
         int timeout = redisLimit.timeout();

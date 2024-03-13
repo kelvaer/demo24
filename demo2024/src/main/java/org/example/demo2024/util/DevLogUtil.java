@@ -6,7 +6,6 @@ import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import cn.hutool.setting.dialect.Props;
 import com.antherd.smcrypto.sm2.Sm2;
 import org.aspectj.lang.JoinPoint;
 import org.example.demo2024.anno.CommonLog;
@@ -91,7 +90,7 @@ public class DevLogUtil {
 
     private static DevLog genBasOpLog() throws Exception {
         HttpServletRequest request = CommonServletUtil.getRequest();
-        String ip = Ip2regionUtil.getIp(request);
+        String ip = IpUtil.getIp(request);
         String loginId;
         try {
             loginId = StpUtil.getLoginIdAsString();
@@ -103,7 +102,7 @@ public class DevLogUtil {
         }
         DevLog devLog = new DevLog();
         devLog.setOpIp(ip);
-        devLog.setOpAddress(Ip2regionUtil.getAddr(ip));
+        devLog.setOpAddress(IpUtil.getAddr(ip));
         devLog.setOpBrowser(CommonServletUtil.getBrowser(request));
         devLog.setOpOs(CommonServletUtil.getOs(request));
         devLog.setCreateUser(loginId);

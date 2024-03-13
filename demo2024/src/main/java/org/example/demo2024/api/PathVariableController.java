@@ -16,17 +16,14 @@
 
 package org.example.demo2024.api;
 
-import com.mybatisflex.core.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.example.demo2024.anno.CommonLog;
 import org.example.demo2024.anno.RedisLimit;
 import org.example.demo2024.cfg.ResultBody;
-import org.example.demo2024.entity.SysUser;
 import org.example.demo2024.mapper.SysUserMapper;
 import org.example.demo2024.util.ExportCSVUtil;
-import org.example.demo2024.util.Ip2regionUtil;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;

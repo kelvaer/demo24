@@ -2,11 +2,13 @@ package org.example.demo2024;
 
 import cn.dev33.satoken.strategy.SaStrategy;
 import cn.dev33.satoken.util.SaFoxUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.EnableSpringUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.easyes.starter.register.EsMapperScan;
 import org.dromara.x.file.storage.spring.EnableFileStorage;
+import org.example.demo2024.util.IpUtil;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -34,15 +36,19 @@ public class Demo2024Application {
         String sysProfilesName = environment.getProperty("spring.profiles.active");
         log.info("系统名:{}",applicationName);
         log.info("系统启动环境:{}",sysProfilesName);
-        log.info("启动成功，API文档访问：http://127.0.0.1:{}/doc.html ,用户名:{},密码:{}",
+        String localServerIp = IpUtil.getLocalServerIp();
+        if (StrUtil.isBlank(localServerIp)){
+            localServerIp = "127.0.0.1";
+        }
+        log.info("启动成功，API文档访问：http://{}:{}/doc.html ,用户名:{},密码:{}",
+                localServerIp,
                 serverPort,
                 SpringUtil.getProperty("knife4j.basic.username"),
                 SpringUtil.getProperty("knife4j.basic.password"));
-        log.info("系统监控访问：http://127.0.0.1:{}/javamelody ,用户名/密码:{}",
+        log.info("系统监控访问：http://{}:{}/javamelody ,用户名/密码:{}",
+                localServerIp,
                 serverPort,
                 SpringUtil.getProperty("javamelody.init-parameters.authorized-sysUsers"));
-
-
     }
 
 }
