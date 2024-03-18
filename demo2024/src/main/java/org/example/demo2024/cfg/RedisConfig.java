@@ -20,7 +20,6 @@ import java.time.Duration;
  * @author: 作者名
  * @create: 2024/03/11
  */
-@EnableCaching
 @Configuration
 public class RedisConfig {
 

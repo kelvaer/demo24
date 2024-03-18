@@ -54,11 +54,11 @@ public class Knife4jConfiguration {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .description("MongoPlus测试工程")
+                .description("java测试工程...............")
                 .contact(new Contact("jiachaoyang", "https://gitee.com/anwena", "j15030047216@163.com"))
                 .termsOfServiceUrl("https://gitee.com/anwena/mongo-plus")
                 .version("v1.0")
-                .title("MongoPlus测试工程")
+                .title("java测试工程")
                 .build();
     }
 }

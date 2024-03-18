@@ -8,6 +8,7 @@ package org.example.demo2024.util;
  */
 
 import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.setting.dialect.Props;
 import lombok.extern.slf4j.Slf4j;
@@ -146,7 +147,11 @@ public class WebSocketUtil extends WebSocketServer {
     public static void startServer() throws UnknownHostException {
         wskt.start();
         log.info("wsktServer started on port: {}", wskt.getPort());
-        log.info("系统websocket服务地址：ws://127.0.0.1:{}", wskt.getPort());
+        String localServerIp = IpUtil.getLocalServerIp();
+        if (StrUtil.isBlank(localServerIp)){
+            localServerIp = "127.0.0.1";
+        }
+        log.info("系统websocket服务地址：ws://{}:{}", localServerIp,wskt.getPort());
     }
 
 

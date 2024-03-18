@@ -33,6 +33,8 @@ public class AsyncConfig {
         //线程池满了后新任务由 任务发起者的线程执行
         RejectedExecutionHandler callerRunsPolicy = new ThreadPoolExecutor.CallerRunsPolicy();
         executor.setRejectedExecutionHandler(callerRunsPolicy);
+        // 等待所有任务结束后再关闭线程池
+        executor.setWaitForTasksToCompleteOnShutdown(true);
         executor.initialize();
         log.info("asyncVoidTestTaskExecutor 初始化完成!");
         return executor;
