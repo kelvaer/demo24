@@ -16,6 +16,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -29,7 +30,13 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SysOrg {
+public class SysOrg implements Serializable {
+
+
+    /**
+     * 被 jetcache 缓存的 java对象 必须实现 Serializable序列化接口
+     */
+    private static final long serialVersionUID = 6081615690609446596L;
 
     @Id(keyType = KeyType.Generator,value = KeyGenerators.flexId)
     private String id;

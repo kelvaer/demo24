@@ -52,22 +52,22 @@ public class RedisConfig {
      * @param redisConnectionFactory
      * @return
      */
-    @Bean
-    public RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
-        RedisSerializer<String> stringRedisSerializer = new StringRedisSerializer();
-        RedisSerializer<Object> jsonSerializer = new GenericJackson2JsonRedisSerializer();
-        RedisCacheConfiguration cacheConfiguration = RedisCacheConfiguration
-                .defaultCacheConfig()
-                //设置spring-cache缓存到redis的数据有效期是60s
-                .entryTtl(Duration.ofSeconds(60))
-                //key的序列化使用字符串
-                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(stringRedisSerializer))
-                //value的序列化使用jackson
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jsonSerializer));
-
-        return RedisCacheManager.builder(redisConnectionFactory)
-                .cacheDefaults(cacheConfiguration)
-                .build();
-    }
+//    @Bean
+//    public RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
+//        RedisSerializer<String> stringRedisSerializer = new StringRedisSerializer();
+//        RedisSerializer<Object> jsonSerializer = new GenericJackson2JsonRedisSerializer();
+//        RedisCacheConfiguration cacheConfiguration = RedisCacheConfiguration
+//                .defaultCacheConfig()
+//                //设置spring-cache缓存到redis的数据有效期是60s
+//                .entryTtl(Duration.ofSeconds(60))
+//                //key的序列化使用字符串
+//                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(stringRedisSerializer))
+//                //value的序列化使用jackson
+//                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jsonSerializer));
+//
+//        return RedisCacheManager.builder(redisConnectionFactory)
+//                .cacheDefaults(cacheConfiguration)
+//                .build();
+//    }
 
 }

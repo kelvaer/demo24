@@ -13,7 +13,9 @@ import org.dromara.easyes.core.conditions.select.LambdaEsQueryWrapper;
 import org.dromara.easyes.core.conditions.update.LambdaEsUpdateWrapper;
 import org.dromara.easyes.core.core.EsWrappers;
 import org.example.demo2024.biz.ISysPermissionService;
+import org.example.demo2024.cache.TestDiyCache;
 import org.example.demo2024.dto.Demo2;
+import org.example.demo2024.dto.UserDTO;
 import org.example.demo2024.entity.SysPermission;
 import org.example.demo2024.entity.SysUser;
 import org.example.demo2024.es.Document;
@@ -50,6 +52,16 @@ import java.util.regex.Pattern;
 
 @SpringBootTest
 class Demo2024ApplicationTests {
+
+    @Autowired
+    private TestDiyCache testDiyCache;
+
+    @Test
+    void qw1(){
+        UserDTO userDTO = testDiyCache.test111(1L);
+        System.err.println(userDTO);
+    }
+
 
     @Test
     void test121(){

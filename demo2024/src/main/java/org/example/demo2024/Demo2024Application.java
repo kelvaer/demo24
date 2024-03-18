@@ -5,6 +5,8 @@ import cn.dev33.satoken.util.SaFoxUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.EnableSpringUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import com.alicp.jetcache.anno.config.EnableCreateCacheAnnotation;
+import com.alicp.jetcache.anno.config.EnableMethodCache;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.easyes.starter.register.EsMapperScan;
 import org.dromara.x.file.storage.spring.EnableFileStorage;
@@ -18,7 +20,10 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.boot.autoconfigure.neo4j.Neo4jAutoConfiguration;
 
-@EnableCaching
+//EnableMethodCache，EnableCreateCacheAnnotation这两个注解分别激活Cached和CreateCache注解
+@EnableMethodCache(basePackages = { "org.example.demo2024" })
+@EnableCreateCacheAnnotation
+//@EnableCaching
 @EnableAsync
 @MapperScan("org.example.demo2024.mapper")
 @Slf4j

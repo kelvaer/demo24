@@ -1,0 +1,174 @@
+dromara:
+  x-file-storage:
+    default-platform: local-plus-1
+    local-plus:
+      - base-path: local-plus/
+        domain: http://127.0.0.1:${server.port}/file/
+        enable-access: true
+        enable-storage: true
+        path-patterns: /file/**
+        platform: local-plus-1
+        storage-path: C:/Temp/
+    thumbnail-suffix: .min.jpg
+easy-es:
+  address: 124.70.217.208:9200
+  banner: true
+  enable: true
+forest:
+  connect-timeout: 3000
+  log-enabled: true
+  log-request: true
+  log-response-content: true
+  log-response-status: true
+  max-connections: 1000
+  max-request-queue-size: 800
+  max-retry-count: 0
+  max-route-connections: 500
+  read-timeout: 3000
+  ssl-protocol: TLS
+javamelody:
+  enabled: true
+  init-parameters:
+    authorized-sysUsers: admin:123456
+    log: true
+    monitoring-path: /javamelody
+    url-exclude-pattern: (/webjars/.*|/css/.*|/images/.*|/fonts/.*|/js/.*)
+knife4j:
+  basic:
+    enable: true
+    password: 123456
+    username: test
+  enable: true
+  setting:
+    enableFooter: false
+    enableFooterCustom: true
+    footerCustomContent: Apache License 2.0 | Copyright  2019-[浙江八一菜刀研究基地](https://gitee.com/xiaoym/knife4j)
+logging:
+  file:
+    path: ${user.home}/.${spring.application.name}/log/
+  level:
+    org:
+      example:
+        demo2024:
+          api: info
+  logback:
+    rollingpolicy:
+      max-file-size: 15MB
+      max-history: 10
+  pattern:
+    console: '%date  %level [%thread] [%X{traceId}] %logger{10} [%file : %line] %msg%n'
+    file: '%date  %level [%thread] [%X{traceId}] %logger{10} [%file : %line] %msg%n'
+mongo-plus:
+  data:
+    mongodb:
+      app-name: demo2024
+      authentication-database: admin
+      connect-timeout-m-s: 5000
+      database: mytestdb
+      host: 192.168.63.135
+      max-connecting: 3
+      max-idle-time-m-s: 3000
+      max-pool-size: 150
+      min-pool-size: 1
+      password: 123456
+      port: 27017
+      username: root
+  format: true
+  log: true
+my:
+  neo4j:
+    database: neo4j
+    password: 12345678
+    uri: neo4j://124.70.217.208:7687
+    username: neo4j
+mybatis-flex:
+  configuration:
+    cache-enabled: true
+  mapper-locations: classpath*:/mappxml/*.xml
+sa-token:
+  active-timeout: 300
+  is-concurrent: false
+  is-log: true
+  is-share: false
+  jwt-secret-key: 1234567890
+  timeout: 3600
+  token-name: X-Access-Token
+security:
+  login:
+    rsa-private-key: MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAMrQcDp20jeUyb5rLO3jg3R6UlA0/U6WdzSXn7T4Sz7Z/F5hxeYiJ+F7+WsXbhGF085O4xivW0eeSZkrEKiO/ssaXELfE106vS3J9izYQNKKMM92chalWWSb7nLNLjhHnERiZpZKTdjRmqDc1NeyO7UoY3dIX1vmetPClFKeZDZ9AgMBAAECgYA8MOQ91anJ6RR+uNwatdz7opnvR+qteiZiq2UwlkfunU8yy52qERT47Iw3Zjq6ZJdZsTvgxZo3hRieppNJEzc2k8tQNtSEGG/WqSVhz3E5QuFxE0nse7qpEG2vuJH6CoyXZ4T3dqL+AybUxxqXDcke+YEAZrVEPqPeUF1B1NgK2QJBAMxIXI/2nXA5teIBktt7jAoao6fsapsi+yrkvBNVKjTWZbb/dAUGp5Jh+2izkQAZZoDArZleIfUaL/F6oDvDYNcCQQD+KOfwcSGmm821hK+dYq7fjd3TYQF96toRNYPJLCALrvf3IcHnbWf486A+CuzSMbkZuVlCDfReubvY81cec3TLAkBF+ygSfWZz0qFXWjioDcvsjjGwThI7MSGgERnI+azqyuOvbBWfvybaw8wvkwxCX3E4/Ei8OH4jjCQOcna/4m+jAkB5oxAmBa7KMwTHW8JEe4cf3KCOWn3BSpWk6MyyidioXsuzzcckQDsjbU2Cg+4FRuDEi+1I7K7IavGZChTmsPDzAkAudsivcNXIiWJBVuBwywwnMxLytK856FW0yEf/ffIs4NKFXUubCuCer0sCCSVeYXdzCGv2nnPxce5oqfcerHK1
+server:
+  port: 8088
+sm2:
+  private-key: 46a416c10fe18962ec5c9501a81ec5b5b0b113d94c142784735cb917d88906f9
+  public-key: 0467c1093e159267da88501c69002c9b35e67a88e698460ff77959a6501e076792fae6db68faf20d327b62a4f0ef9e78114eee1610e65e517621cd3298be3c6f39
+spring:
+  application:
+    name: demo2024
+#  cache:
+#    type: redis
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: 123456
+    url: jdbc:mysql://192.168.63.135:3305/demo?characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+  messages:
+    basename: i18n/messages
+    cache-duration: 3600
+    encoding: UTF-8
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  redis:
+    database: 6
+    host: 192.168.63.135
+    lettuce:
+      pool:
+        enabled: true
+        max-active: 12
+        max-idle: 8
+        max-wait: -1ms
+        min-idle: 2
+      shutdown-timeout: 100ms
+    password: 123456
+    port: 6379
+    timeout: 2000ms
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 50MB
+
+
+jetcache:
+  # 控制台输出统计数据，统计间隔（单位分钟），0表示不统计
+  statIntervalMinutes: 1
+  areaInCacheName: false
+  local:
+    default:
+      type: linkedhashmap
+      keyConvertor: fastjson2
+      limit: 100
+      expireAfterWriteInMillis: 100000
+  remote:
+    default:
+      type: redis.springdata
+      keyConvertor: fastjson2
+      broadcastChannel: '${spring.application.name}:'
+      keyPrefix: '${spring.application.name}:'
+      valueEncoder: kryo5
+      valueDecoder: kryo5
+      defaultExpireInMillis: 5000
+
+
+
+
+
+
+tss4j:
+  datapath: C:/Program Files/Tesseract-OCR/tessdata
+wskt:
+  outbound:
+    topics:
+      - /serverPush1
+      - /serverPush2
+      - /serverPush3
+  port: 8844

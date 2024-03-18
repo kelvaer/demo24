@@ -3,6 +3,7 @@ package org.example.demo2024.dto;
 import com.mybatisflex.annotation.Column;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -12,7 +13,9 @@ import java.util.Date;
  * @create: 2024/02/05
  */
 @Data
-public class UserDTO {
+public class UserDTO implements Serializable {
+
+    private static final long serialVersionUID = -2342624737308835929L;
     private Long id;
     private String userName;
     private Integer age;
