@@ -104,7 +104,28 @@ sm2:
 spring:
   application:
     name: demo2024
-#  cache:
+  flyway:
+    enabled: true
+    clean-disabled: true
+    encoding: UTF-8
+    locations: classpath:db/migration
+    sql-migration-prefix: V
+    sql-migration-separator: __
+    sql-migration-suffixes: .sql
+    validate-on-migrate: true
+    baseline-on-migrate: true
+    url: jdbc:mysql://192.168.63.135:3305/demo?characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    password: 123456
+    user: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  thymeleaf:
+    prefix: classpath:/template/
+  mail:
+    host: smtp.qq.com
+    username: 820107947@qq.com
+    password: 5e748ew7f
+    default-encoding: UTF-8
+  #  cache:
 #    type: redis
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
