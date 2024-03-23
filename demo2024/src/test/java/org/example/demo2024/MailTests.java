@@ -30,7 +30,7 @@ class MailTests {
         Context context = new Context();
         context.setVariable("id", "001");
         String emailContent = templateEngine.process("emailTemplate", context);
-        mailUtils.sendHtmlMail("zhaokuii11@163.com", "这是一个模板文件", emailContent);
+        mailUtils.sendHtmlMail("1131201834@qq.com", "这是一个模板文件", emailContent);
     }
 
     /**
@@ -38,7 +38,7 @@ class MailTests {
      */
     @Test
     public void sendSimpleMail() {
-        mailUtils.sendSimpleMail("zhaokuii11@163.com", "发送邮件测试", "大家好，这是我用springboot进行发送邮件测试");
+        mailUtils.sendSimpleMail("1131201834@qq.com", "发送邮件测试", "大家好，这是我用springboot进行发送邮件测试");
     }
 
     /**
@@ -47,7 +47,7 @@ class MailTests {
     @Test
     public void sendHtmlMail() {
         String content = "<html><body><h3><font color=\"red\">" + "大家好，这是springboot发送的HTML邮件" + "</font></h3></body></html>";
-        mailUtils.sendHtmlMail("zhaokuii11@163.com", "发送邮件测试", content);
+        mailUtils.sendHtmlMail("1131201834@qq.com", "发送邮件测试", content);
     }
 
     /**
@@ -56,8 +56,8 @@ class MailTests {
     @Test
     public void sendAttachmentMail() {
         String content = "<html><body><h3><font color=\"red\">" + "大家好，这是springboot发送的HTML邮件，有附件哦" + "</font></h3></body></html>";
-        String filePath = "your file path";
-        mailUtils.sendAttachmentMail("zhaokuii11@163.com", "发送邮件测试", content, filePath);
+        String filePath = "C:\\dev\\open-source\\demo24\\demo2024\\help\\test323.png";
+        mailUtils.sendAttachmentMail("1131201834@qq.com", "发送邮件测试", content, filePath);
     }
 
     /**
@@ -65,11 +65,11 @@ class MailTests {
      */
     @Test
     public void sendInlineResourceMail() {
-        String rscPath = "your picture path";
+        String rscPath = "C:\\dev\\open-source\\demo24\\demo2024\\help\\test323.png";
         String rscId = "001";
         String content = "<html><body><h3><font color=\"red\">" + "大家好，这是springboot发送的HTML邮件，有图片哦" + "</font></h3>"
                 + "<img src=\'cid:" + rscId + "\'></body></html>";
-        mailUtils.sendInlineResourceMail("zhaokuii11@163.com", "发送邮件测试", content, rscPath, rscId);
+        mailUtils.sendInlineResourceMail("1131201834@qq.com", "发送邮件测试", content, rscPath, rscId);
     }
 
 }
