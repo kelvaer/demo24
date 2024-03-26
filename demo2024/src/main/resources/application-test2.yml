@@ -157,6 +157,17 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 50MB
+  data:
+    neo4j:
+#      uri: neo4j://124.70.217.208:7687
+#      username: neo4j
+#      password: 12345678
+      database: neo4j
+  neo4j:
+    authentication:
+      username: neo4j
+      password: 12345678
+    uri: bolt://124.70.217.208:7687
 
 
 jetcache:
